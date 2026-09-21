@@ -4,8 +4,7 @@ Guidance for AI coding agents (and humans) working in this repository.
 
 ## What this project does
 
-A GitHub Actions workflow runs at 07:00 UK time **Monday to Thursday only** (the owner's
-commuting days; no weekend or Friday runs). It calls the TfL
+A GitHub Actions workflow runs at 07:00 UK time Monday to Thursday. It calls the TfL
 (Transport for London) Unified API, checks the status of a configurable set of lines
 (Underground, Overground, Elizabeth line, etc.) and sends a Telegram message to a channel
 if any line has disruption.
@@ -22,12 +21,12 @@ All configuration is passed to the script as environment variables, sourced from
 repository secrets / variables. Nothing is read from config files and no secret is ever
 committed or logged.
 
-| Variable             | Purpose                                                                  |
-| -------------------- | ------------------------------------------------------------------------ |
-| `TFL_API_KEY`        | TfL API key (sent as the `app_key` query parameter)                      |
+| Variable             | Purpose                                                                     |
+| -------------------- | --------------------------------------------------------------------------- |
+| `TFL_API_KEY`        | TfL API key (sent as the `app_key` query parameter)                         |
 | `TFL_LINES`          | Comma-separated TfL line IDs to monitor, e.g. `victoria,northern,elizabeth` |
-| `TELEGRAM_BOT_TOKEN` | Telegram bot token                                                       |
-| `TELEGRAM_CHAT_ID`   | Telegram channel / chat ID to post to                                    |
+| `TELEGRAM_BOT_TOKEN` | Telegram bot token                                                          |
+| `TELEGRAM_CHAT_ID`   | Telegram channel / chat ID to post to                                       |
 
 Missing or empty required variables should fail fast with a clear error message (naming the
 variable, never printing its value).
