@@ -24,6 +24,6 @@ jobs:
         run: uv run --frozen --no-dev travel-status-alerter
         env:
           TFL_API_KEY: ${{ secrets.TFL_API_KEY }}
-          TFL_LINES: ${{ vars.TFL_LINES }}
+          TFL_LINES: ${{ secrets.TFL_LINES }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
