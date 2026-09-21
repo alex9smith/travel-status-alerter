@@ -10,7 +10,7 @@ requires-python = ">=3.13"
 dependencies = []
 
 [project.scripts]
-travel-status-alerter = "travel_status_alerter:main"
+travel-status-alerter = "travel_status_alerter.main:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -37,7 +37,8 @@ variable, never printing its value).
 GitHub Actions cron is UTC-only, so the workflow uses **two crons (`0 6 * * 1-4` and
 `0 7 * * 1-4`, i.e. 06:00 and 07:00 UTC on Mon-Thu)** and the script has a guard that exits early unless the current time in `Europe/London`
 is in the 07:00 hour. This makes it fire exactly once at 07:00 UK time in both BST and GMT.
-Manual `workflow_dispatch` runs skip the guard so the job can be tested on demand. The
+The guard applies only when `GITHUB_EVENT_NAME == "schedule"`; manual `workflow_dispatch`
+runs and local runs skip it so the job can be tested on demand. The
 guard logic must be a pure function of an injected "now" so it is unit-testable.
 
 ## Tooling and language conventions
