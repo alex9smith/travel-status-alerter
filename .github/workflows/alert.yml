@@ -1,0 +1,29 @@
+name: Travel status alert
+
+on:
+  schedule:
+    # GitHub cron is UTC-only. Fire at both 06:00 and 07:00 UTC, Monday to Thursday; the
+    # script's UK-hour guard lets exactly one through, giving 07:00 UK time in GMT and BST.
+    - cron: "0 6 * * 1-4"
+    - cron: "0 7 * * 1-4"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Check TfL status and alert on Telegram
+        run: uv run --frozen --no-dev travel-status-alerter
+        env:
+          TFL_API_KEY: ${{ secrets.TFL_API_KEY }}
+          TFL_LINES: ${{ vars.TFL_LINES }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
