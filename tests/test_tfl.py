@@ -161,11 +161,27 @@ class FakeResponse(io.BytesIO):
 def test_urllib_get_returns_body_and_uses_timeout(monkeypatch: pytest.MonkeyPatch) -> None:
     seen: dict[str, object] = {}
 
-    def fake_urlopen(url: str, timeout: float) -> FakeResponse:
-        seen.update(url=url, timeout=timeout)
+    def fake_urlopen(request: urllib.request.Request, timeout: float) -> FakeResponse:
+        seen.update(url=request.full_url, timeout=timeout)
         return FakeResponse(b"body")
 
     monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
 
     assert urllib_get("https://example.test/x") == b"body"
     assert seen == {"url": "https://example.test/x", "timeout": tfl.TIMEOUT_SECONDS}
+
+
+def test_urllib_get_sends_custom_user_agent(monkeypatch: pytest.MonkeyPatch) -> None:
+    """TfL's Cloudflare front end rejects the default Python-urllib UA with HTTP 403 (1010)."""
+    seen: dict[str, str | None] = {}
+
+    def fake_urlopen(request: urllib.request.Request, timeout: float) -> FakeResponse:
+        seen["user_agent"] = request.get_header("User-agent")
+        return FakeResponse(b"body")
+
+    monkeypatch.setattr(urllib.request, "urlopen", fake_urlopen)
+
+    urllib_get("https://example.test/x")
+
+    assert seen["user_agent"] == tfl.USER_AGENT
+    assert "urllib" not in tfl.USER_AGENT.lower()

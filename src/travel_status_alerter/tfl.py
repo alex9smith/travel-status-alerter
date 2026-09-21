@@ -7,6 +7,9 @@ from dataclasses import dataclass
 
 BASE_URL = "https://api.tfl.gov.uk"
 TIMEOUT_SECONDS = 20.0
+# TfL's Cloudflare front end rejects the default "Python-urllib" User-Agent with HTTP 403
+# (error code 1010), so we must identify ourselves with our own.
+USER_AGENT = "travel-status-alerter/0.1"
 
 HttpGet = Callable[[str], bytes]
 
@@ -29,7 +32,8 @@ class LineStatus:
 
 
 def urllib_get(url: str) -> bytes:
-    with urllib.request.urlopen(url, timeout=TIMEOUT_SECONDS) as response:
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
         body: bytes = response.read()
     return body
 
