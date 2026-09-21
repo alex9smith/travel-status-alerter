@@ -1,0 +1,43 @@
+[project]
+name = "travel-status-alerter"
+version = "0.1.0"
+description = "Sends a Telegram alert each morning if any monitored TfL lines are disrupted."
+readme = "README.md"
+authors = [
+    { name = "Alex Whitehead-Smith", email = "alex.me.smith@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+travel-status-alerter = "travel_status_alerter:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.8",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=travel_status_alerter --cov-report=term-missing"
+
+[tool.coverage.run]
+branch = true
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "ANN"]
