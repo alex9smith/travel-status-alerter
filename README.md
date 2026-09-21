@@ -14,7 +14,7 @@ In the repository settings (Settings → Secrets and variables → Actions):
 | `TFL_API_KEY`        | Secret   | Key from the [TfL API portal](https://api-portal.tfl.gov.uk) |
 | `TELEGRAM_BOT_TOKEN` | Secret   | From [@BotFather](https://t.me/BotFather)                    |
 | `TELEGRAM_CHAT_ID`   | Secret   | Channel/chat ID (the bot must be able to post there)         |
-| `TFL_LINES`          | Variable | Comma-separated TfL line IDs, e.g. `victoria,northern,elizabeth` |
+| `TFL_LINES`          | Secret   | Comma-separated TfL line IDs, e.g. `victoria,northern,elizabeth` |
 
 Line IDs are those used by the TfL API (lower case, hyphenated), e.g. `bakerloo`,
 `hammersmith-city`, `london-overground`, `dlr`, `elizabeth`. List them with

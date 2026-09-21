@@ -18,8 +18,8 @@ if any line has disruption.
 ## Configuration and secrets
 
 All configuration is passed to the script as environment variables, sourced from GitHub
-repository secrets / variables. Nothing is read from config files and no secret is ever
-committed or logged.
+repository secrets (including `TFL_LINES`; the workflow reads all four from `secrets.*`).
+Nothing is read from config files and no secret is ever committed or logged.
 
 | Variable             | Purpose                                                                     |
 | -------------------- | --------------------------------------------------------------------------- |
