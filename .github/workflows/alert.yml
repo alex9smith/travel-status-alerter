@@ -2,10 +2,14 @@ name: Travel status alert
 
 on:
   schedule:
-    # GitHub cron is UTC-only. Fire at both 06:00 and 07:00 UTC, Monday to Thursday; the
-    # script's UK-hour guard lets exactly one through, giving 07:00 UK time in GMT and BST.
-    - cron: "0 6 * * 1-4"
-    - cron: "0 7 * * 1-4"
+    # GitHub cron is UTC-only. Fire at both 06:17 and 07:17 UTC, Monday to Thursday; the
+    # script's UK-hour guard lets exactly one through, giving ~07:17 UK time in GMT and BST.
+    # Deliberately offset from the top of the hour: GitHub Actions documents that
+    # on-the-hour schedules are the most congested slot and can be delayed by hours under
+    # load, which previously pushed runs so late they missed the guard's 07:00 UK window
+    # entirely (see e.g. runs that actually fired at 11:54 and 13:21 UTC instead).
+    - cron: "17 6 * * 1-4"
+    - cron: "17 7 * * 1-4"
   workflow_dispatch:
 
 permissions:

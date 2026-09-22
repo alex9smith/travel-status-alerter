@@ -22,11 +22,15 @@ Line IDs are those used by the TfL API (lower case, hyphenated), e.g. `bakerloo`
 
 ## Scheduling
 
-GitHub cron is UTC-only, so the workflow fires at 06:00 and 07:00 UTC on Mon-Thu and the
-script only proceeds when it is the 07:00 hour in `Europe/London`. That gives 07:00 UK time
-in both GMT and BST. GitHub may delay scheduled runs under load; a run delayed past 07:59 UK
-time is skipped. GitHub also disables scheduled workflows in a repository after 60 days
-without activity, so re-enable it in the Actions tab if the alerts stop.
+GitHub cron is UTC-only, so the workflow fires at 06:17 and 07:17 UTC on Mon-Thu and the
+script only proceeds when it is the 07:00 hour in `Europe/London`. That gives ~07:17 UK time
+in both GMT and BST. The minute is deliberately offset from the top of the hour: GitHub
+Actions documents that on-the-hour schedules are the most congested slot and can be delayed
+by hours under load, which is exactly what happened when this workflow was first added with
+`0 6`/`0 7` crons — both runs fired hours late and missed the guard window entirely. GitHub
+may still delay scheduled runs under load; a run delayed past 07:59 UK time is skipped.
+GitHub also disables scheduled workflows in a repository after 60 days without activity, so
+re-enable it in the Actions tab if the alerts stop.
 
 To run on demand, use Actions → "Travel status alert" → Run workflow. Manual runs skip the
 time guard.
